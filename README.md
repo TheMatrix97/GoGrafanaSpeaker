@@ -1,8 +1,10 @@
-# GoGrafanaSpeaker
+# go-grafana-speaker (WIP)
 
 
 
 ## Install Go
+
+Check the official [Go Installation manual](https://go.dev/doc/install)
 
 ```bash
 $ wget https://go.dev/dl/go1.21.6.linux-amd64.tar.gz
