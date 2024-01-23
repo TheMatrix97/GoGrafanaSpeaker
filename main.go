@@ -1,9 +1,12 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/thematrix97/gografanaspeaker/controllers"
+	"github.com/thematrix97/gografanaspeaker/services"
 )
 
 var db = make(map[string]string)
@@ -16,6 +19,15 @@ func setupRouter() *gin.Engine {
 	// Ping test
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "pong")
+	})
+
+	r.POST("/event", func(ctx *gin.Context) {
+		res, errors := controllers.ProcessGrafanaEvent(ctx)
+		if errors != nil {
+			ctx.String(http.StatusInternalServerError, "Server Error")
+		} else {
+			ctx.JSON(http.StatusOK, res)
+		}
 	})
 
 	// Get user value
@@ -67,7 +79,19 @@ func setupRouter() *gin.Engine {
 	return r
 }
 
+// https://stackoverflow.com/questions/69948784/how-to-handle-errors-in-gin-middleware
+func ErrorHandler(c *gin.Context) {
+	c.Next()
+
+	for _, err := range c.Errors {
+		log.Println(err.Error())
+	}
+
+	c.JSON(http.StatusInternalServerError, "Internal Error, Whoops") //TODO implement a proper error handling
+}
+
 func main() {
+	services.LoadEnvConfig()
 	r := setupRouter()
 	// Listen and Server in 0.0.0.0:8080
 	r.Run(":8080")
