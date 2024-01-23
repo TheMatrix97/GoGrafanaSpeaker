@@ -13,6 +13,5 @@ func PlayNotification(path string) error {
 		out = []byte(err.Error())
 	}
 	log.Println(string(out))
-
 	return err
 }

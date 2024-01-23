@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/thematrix97/gografanaspeaker/controllers"
-	"github.com/thematrix97/gografanaspeaker/services"
+	"github.com/thematrix97/go-grafana-speaker/controllers"
+	"github.com/thematrix97/go-grafana-speaker/services"
 )
 
 var db = make(map[string]string)
@@ -22,9 +22,9 @@ func setupRouter() *gin.Engine {
 	})
 
 	r.POST("/event", func(ctx *gin.Context) {
-		res, errors := controllers.ProcessGrafanaEvent(ctx)
-		if errors != nil {
-			ctx.String(http.StatusInternalServerError, "Server Error")
+		res, err := controllers.ProcessGrafanaEvent(ctx)
+		if err != nil {
+			ctx.String(err.Code, err.Msg)
 		} else {
 			ctx.JSON(http.StatusOK, res)
 		}

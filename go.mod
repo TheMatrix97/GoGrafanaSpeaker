@@ -1,4 +1,4 @@
-module github.com/thematrix97/gografanaspeaker
+module github.com/thematrix97/go-grafana-speaker
 
 go 1.21.6
 

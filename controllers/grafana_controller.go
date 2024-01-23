@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/thematrix97/gografanaspeaker/services"
-	"github.com/thematrix97/gografanaspeaker/types"
+	"github.com/thematrix97/go-grafana-speaker/services"
+	"github.com/thematrix97/go-grafana-speaker/types"
 )
 
 func ProcessGrafanaEvent(ctx *gin.Context) (types.GrafanaEvent, *types.HTTPError) {
